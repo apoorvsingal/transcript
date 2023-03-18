@@ -1,0 +1,13 @@
+ Now I want to watch your emergency.
+ Not again. One of the new features in the iPhones and Apple watches this year is called crash detection.
+ Essentially it can automatically determine if it's been in a car crash and then call emergency services for you.
+ So they do this by constantly sampling data from a bunch of sensors.
+ So basically if the phone's GPS sees you're traveling very quickly and then the gyroscope and accelerometer feels some hard G-forces
+ and then the microphone hears some loud crashing sounds, it's pretty sure you've been in a crash.
+ So it'll ask you and then call 911 if you don't respond.
+ But you know what else turns out to have almost the exact same set of circumstances happening to you and the phone in your pocket?
+ A roller coaster. People have been going on theme park rides, accelerating fast, hitting high G-forces
+ and hearing loud crashing sounds and their phones and watches have picked up on all that and started calling 911,
+ sending law enforcement over and over again to the Joker roller coaster at Six Flags.
+ So that's why you might now start to see signs like this warning you to turn your phone off or put in airplane mode.
+ which is kind of hilarious, but also Apple, please try to fix this one.

@@ -1,0 +1,27 @@
+{
+  "name": "transcript",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "18.15.3",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "file-api": "^0.10.4",
+    "firebase-admin": "^11.5.0",
+    "next": "13.2.4",
+    "node-blob": "^0.0.2",
+    "openai": "^3.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.0.2",
+    "web-blob": "^2.1.5"
+  }
+}

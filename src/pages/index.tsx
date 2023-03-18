@@ -3,11 +3,6 @@ import {handleSave} from "../lib/client";
 import { useEffect } from 'react';
 
 export default function Home() {
-
-  useEffect(() => {
-    handleSave();
-  }, []);
-
   return (
     <>
       <Head>
@@ -17,7 +12,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        ow
+        <button onClick={handleSave}>
+          send tx
+        </button>
       </main>
     </>
   )

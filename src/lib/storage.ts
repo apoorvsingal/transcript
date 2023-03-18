@@ -1,6 +1,7 @@
 
 import { initializeApp, cert, getApp } from 'firebase-admin/app';
 import { getStorage } from 'firebase-admin/storage';
+import { createReadStream, read } from 'fs';
 
 const serviceAccount = require('../../firebase.json');
 
@@ -13,10 +14,18 @@ try {
   });
 }
 
-export async function storeAudio(content: Buffer){
+export async function storeAudio(path: string){
   const name = new Date().getTime() + ".wav";
 
-  await getStorage().bucket().file(name).save(content);
+  const writable = getStorage().bucket().file(name).createWriteStream();
+  const readable = createReadStream(path);
+
+  readable.pipe(writable);
+
+  await new Promise((resolve, reject) => {
+    writable.on('finish', resolve);
+    writable.on('error', reject);
+  });
   return name;
 };
 

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "init-whisper": "git submodule init whisper.cpp && cd whisper.cpp && bash ./models/download-ggml-model.sh base.en && make"
   },
   "dependencies": {
     "@types/node": "18.15.3",

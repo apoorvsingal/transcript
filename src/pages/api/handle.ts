@@ -1,11 +1,10 @@
-import {Writable} from 'stream';
-
 import formidable from 'formidable';
-import {NextApiRequest, NextApiResponse, PageConfig} from 'next';
-import { createWriteStream, readFileSync, unlink, unlinkSync, write, writeFileSync } from 'fs';
-import { exec, execSync } from 'child_process';
-import { storeAudio, storeTranscript } from '@/lib/storage';
+import { NextApiRequest, NextApiResponse, PageConfig } from 'next';
+import { createWriteStream, readFileSync, unlink, unlinkSync } from 'fs';
+import { exec } from 'child_process';
 import { promisify } from 'util';
+
+import { storeAudio, storeTranscript } from '@/lib/storage';
 
 const formidableConfig = {
     keepExtensions: true,
@@ -28,7 +27,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
           fileWriteStreamHandler: () => writeStream,
         });
         await new Promise((res, rej) => {
-          form.parse(req, err => err ? rej(err) : res(undefined));
+          form.parse(req, err => err ? rej(err) : res(null));
         });
 
         await promisify(exec)(`cd ./whisper.cpp && ./main -f ../${path} --output-txt`);
@@ -48,9 +47,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export const config: PageConfig = {
-    api: {
-        bodyParser: false,
-    },
+    api: { bodyParser: false },
 };
 
 export default handler;

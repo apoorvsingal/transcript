@@ -6,13 +6,12 @@ export default async function getAudio(
   res: NextApiResponse
 ) {
   const name = req.query.name as string;
-  const buffer = await fetchAudio(name);
-
+  const { size, stream } = await fetchAudio(name);
+  
   res.writeHead(200, {
-    'Content-Type': 'audio/mpeg',
-    'Content-Length': buffer[0].byteLength
+    'Content-Type': 'audio/wav',
+    'Content-Length': size
   });
-  res.write(buffer[0]);
-  res.end();
+  stream.pipe(res);
 };
 

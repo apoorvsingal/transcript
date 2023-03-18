@@ -30,13 +30,16 @@ export async function storeAudio(path: string){
 };
 
 export async function fetchAudio(name: string) {
-  return getStorage().bucket().file(name).download();
+  const metadata = await getStorage().bucket().file(name).getMetadata();
+  const stream = getStorage().bucket().file(name).createReadStream();
+  
+  return { stream, size: metadata[0].size }
 };
 
 export async function storeTranscript(name: string, transcript: string) {
   await getStorage().bucket().file(name + ".txt").save(transcript);
-}
+};
 
 export async function fetchTranscript(name: string) {
   return getStorage().bucket().file(name + ".txt").download();
-}
+};

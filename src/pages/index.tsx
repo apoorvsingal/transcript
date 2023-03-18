@@ -1,6 +1,13 @@
 import Head from 'next/head'
+import {handleSave} from "../lib/client";
+import { useEffect } from 'react';
 
 export default function Home() {
+
+  useEffect(() => {
+    handleSave();
+  }, []);
+
   return (
     <>
       <Head>

@@ -40,7 +40,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         unlinkSync(path);
         unlinkSync(path + ".txt");
 
-        return res.send({ name });
+        return res.send({ name, transcript });
     } catch (err) {
         return res.status(500).json({error: 'Internal Server Error'});
     }

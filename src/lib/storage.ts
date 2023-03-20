@@ -17,7 +17,8 @@ try {
 export async function storeAudio(path: string){
   const name = new Date().getTime() + ".wav";
 
-  const writable = getStorage().bucket().file(name).createWriteStream();
+  const file = getStorage().bucket().file(name);
+  const writable = file.createWriteStream();
   const readable = createReadStream(path);
 
   readable.pipe(writable);
@@ -26,7 +27,11 @@ export async function storeAudio(path: string){
     writable.on('finish', resolve);
     writable.on('error', reject);
   });
-  return name;
+
+  await file.makePublic();
+  const url = await file.publicUrl();
+
+  return { name, url };
 };
 
 export async function fetchAudio(name: string) {

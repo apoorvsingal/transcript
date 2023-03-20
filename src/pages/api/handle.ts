@@ -5,6 +5,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 
 import { storeAudio, storeTranscript } from '@/lib/storage';
+import { storeToNotion } from '@/lib/notion';
 
 const formidableConfig = {
     keepExtensions: true,
@@ -29,13 +30,14 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         await new Promise((res, rej) => {
           form.parse(req, err => err ? rej(err) : res(null));
         });
-
         await promisify(exec)(`cd ./whisper.cpp && ./main -f ../${path} --output-txt`);
 
         const transcript = readFileSync(path + '.txt', 'utf8');
 
-        const name = await storeAudio(path);
+        const { name, url } = await storeAudio(path);
+
         await storeTranscript(name, transcript);
+        await storeToNotion(name, url, transcript);
 
         unlinkSync(path);
         unlinkSync(path + ".txt");

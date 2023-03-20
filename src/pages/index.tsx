@@ -61,7 +61,7 @@ export default function Home() {
           name && (
             <div>
               URLs: <br/>
-                Audio: <Link href={`/api/getAudio?name=${name}`}>/aoi/getAudio?name={name}</Link>  <br/>
+                Audio: <Link href={`/api/getAudio?name=${name}`}>/api/getAudio?name={name}</Link>  <br/>
                 Transcript: <Link href={`/api/getTranscript?name=${name}`}>/api/getTranscript?name={name}</Link>
             </div>
           )

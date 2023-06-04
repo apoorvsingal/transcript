@@ -1,6 +1,6 @@
-export async function getTransacipt(name: string) {
-  const res = await fetch(`/api/getTranscript?name=${name}`);
-  const data = await res.json();
+import axios from 'axios';
 
-  return data.transcript;
-};
+export async function getTransacipt(name: string) {
+  const res = await axios.get(`/api/getTranscript?name=${name}`);
+  return res.data.transcript;
+}

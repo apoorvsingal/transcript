@@ -6,14 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "init-whisper": "git submodule init whisper.cpp && cd whisper.cpp && bash ./models/download-ggml-model.sh base.en && make"
+    "lint": "gts lint",
+    "init-whisper": "git submodule init whisper.cpp && cd whisper.cpp && bash ./models/download-ggml-model.sh base.en && make",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.3",
+    "@supabase/supabase-js": "^2.24.0",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "axios": "^1.4.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "firebase-admin": "^11.5.0",
@@ -25,6 +33,12 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
-    "@types/formidable": "^2.0.5"
+    "@types/formidable": "^2.0.5",
+    "@types/node": "^14.11.2",
+    "gts": "^3.1.1",
+    "typescript": "~4.7.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

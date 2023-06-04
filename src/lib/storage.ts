@@ -1,50 +1,56 @@
+import {createClient} from '@supabase/supabase-js';
+import {createReadStream} from 'fs';
 
-import { initializeApp, cert, getApp } from 'firebase-admin/app';
-import { getStorage } from 'firebase-admin/storage';
-import { createReadStream, read } from 'fs';
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-const serviceAccount = require('../../firebase.json');
+const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
-try {
-  getApp();
-} catch {
-  initializeApp({
-    credential: cert(serviceAccount),
-    storageBucket: "transcript-c78ca.appspot.com"
-  });
+// export async function storeAudio(path: string) {
+//   const name = new Date().getTime() + '.wav';
+//   const {data, error} = await supabase.storage
+//     .from('transcripts')
+//     .upload(name, createReadStream(path));
+
+//   if (error) {
+//     throw error;
+//   }
+//   const url = `${supabaseUrl}/storage/v1/object/public/transcripts/${name}`;
+
+//   return {name, url};
+// }
+
+// export async function fetchAudio(name: string) {
+//   const {data, error} = await supabase.storage
+//     .from('transcripts')
+//     .download(name);
+
+//   if (error) {
+//     throw error;
+//   }
+//   return {stream: data, size: data.size};
+// }
+
+export async function storeTranscript(transcript: string) {
+  const name = new Date().getTime() + '.wav';
+
+  const {error} = await supabase.storage
+    .from('transcripts')
+    .upload(`${name}.txt`, new Blob([transcript]));
+
+  if (error) {
+    throw error;
+  }
+  return name;
 }
 
-export async function storeAudio(path: string){
-  const name = new Date().getTime() + ".wav";
-
-  const file = getStorage().bucket().file(name);
-  const writable = file.createWriteStream();
-  const readable = createReadStream(path);
-
-  readable.pipe(writable);
-
-  await new Promise((resolve, reject) => {
-    writable.on('finish', resolve);
-    writable.on('error', reject);
-  });
-
-  await file.makePublic();
-  const url = await file.publicUrl();
-
-  return { name, url };
-};
-
-export async function fetchAudio(name: string) {
-  const metadata = await getStorage().bucket().file(name).getMetadata();
-  const stream = getStorage().bucket().file(name).createReadStream();
-  
-  return { stream, size: metadata[0].size }
-};
-
-export async function storeTranscript(name: string, transcript: string) {
-  await getStorage().bucket().file(name + ".txt").save(transcript);
-};
-
 export async function fetchTranscript(name: string) {
-  return getStorage().bucket().file(name + ".txt").download();
-};
+  const {data, error} = await supabase.storage
+    .from('transcripts')
+    .download(`${name}.txt`);
+
+  if (error) {
+    throw error;
+  }
+  return new TextDecoder().decode(Buffer.from(await data.arrayBuffer()));
+}
